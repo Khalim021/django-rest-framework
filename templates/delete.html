@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Profile</title>
+</head>
+<body>
+<p>Are you sure You wanna delete your profile "{{ item }}"</p>
+ <form action="{% url 'blog:delete-profile' item.id %}" method="post">
+     {% csrf_token %}
+     <button style="color: #0f74a8;"><a href="{% url 'blog:blog-list' %}">Cancel</a></button>
+     <button style="color: #0f74a8;"><a href="{% url 'blog:blog-list' %}">Delete</a></button>
+
+
+ </form>
+</body>
+</html>

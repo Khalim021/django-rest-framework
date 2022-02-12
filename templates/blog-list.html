@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Django RestFramework</title>
+    <style>
+        .blog-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-top: 5px;
+        }
+
+        .blog-status {
+            margin-top: 5px;
+        }
+
+        .blog-view {
+            margin-top: 10px;
+        }
+
+        h4 {
+            margin-left: 15px;
+        }
+
+        form {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+<a href="{% url 'blog:create-profile' %}">
+    <button type="submit" style="color: #0f74a8">Create Profile</button>
+</a>
+<hr>
+{% for blog in object_list %}
+    <div class="blog-img">
+        <img src="{{ blog.image.url }}" alt="blog image" class="blog-img">
+    </div>
+    <h4>{{ blog.name }}</h4>
+    <a href="{% url 'blog:update-profile' pk=blog.pk %}">
+        <button type="submit" style="color: #0f74a8">Edit Profile</button></a>
+    <a href="{% url 'blog:delete-profile' pk=blog.pk %}">
+        <button type="submit" style="color: #0f74a8">Delete Profile</button></a>
+    <h2>Bio</h2>
+    <p>{{ blog.bio }}</p><br>
+    <h2>Status</h2>
+    <div class="blog-status">
+        {{ blog.quotes }}
+    </div>
+    <div class="blog-view">
+        <a href="{% url 'blog:blog-detail' pk=blog.pk %}">
+            <button style="color: #3875d7">Read More</button>
+        </a>
+        <form method="post" action="{% url 'blog:blog-likes' %}" class="ui form">
+            {% csrf_token %}
+            <input type="hidden" name="blog_id" value="{{ blog.id }}">
+            {% if user not in blog.likes.all %}
+                <button style="color: #0f74a8" type="submit">Like</button>
+            {% else %}
+                <button style="color: #c41a16" type="submit">Unlike</button>
+            {% endif %}
+            <strong>{{ blog.likes.all.count }} likes</strong>
+            <button style="color: #3875d7">{{ blog.post_views }} Views</button>
+        </form>
+    </div>
+    <hr>
+{% endfor %}
+</body>
+</html>
+
+
